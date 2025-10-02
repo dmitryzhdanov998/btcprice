@@ -13,47 +13,40 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      height: 100vh;
+      justify-content: flex-start;
+      min-height: 100vh;
       margin: 0;
       text-align: center;
+      padding: 40px 20px;
     }
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 20px;
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-      font-weight: 600;
+    h1 { font-size: 2rem; margin-bottom: 20px; text-shadow: 0 0 10px rgba(255,255,255,0.3); font-weight: 600; }
+    #price { font-size: 3.5rem; font-weight: 700; transition: color 0.5s, text-shadow 0.5s; margin-bottom: 5px; }
+    .green { color: #00ff95; text-shadow: 0 0 15px rgba(0,255,149,0.7); }
+    .red { color: #ff3c3c; text-shadow: 0 0 15px rgba(255,60,60,0.7); }
+    #change { font-size: 1.2rem; margin-bottom: 30px; transition: color 0.5s; font-weight: 600; }
+    small { margin-bottom: 20px; opacity: 0.8; font-size: 0.9rem; }
+    .accordion {
+      background: rgba(255,255,255,0.05);
+      border-radius: 10px;
+      padding: 15px 20px;
+      max-width: 700px;
+      margin-bottom: 15px;
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.3s;
     }
-    #price {
-      font-size: 3.5rem;
-      font-weight: 700;
-      transition: color 0.5s, text-shadow 0.5s;
+    .accordion:hover { background: rgba(255,255,255,0.1); }
+    .accordion h2 { margin: 0; font-size: 1.3rem; display: inline-block; }
+    .panel {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+      font-size: 1rem;
+      line-height: 1.5;
+      padding-top: 0;
     }
-    .green {
-      color: #00ff95;
-      text-shadow: 0 0 15px rgba(0, 255, 149, 0.7);
-    }
-    .red {
-      color: #ff3c3c;
-      text-shadow: 0 0 15px rgba(255, 60, 60, 0.7);
-    }
-    #change {
-      font-size: 1.2rem;
-      margin-top: 15px;
-      transition: color 0.5s;
-      font-weight: 600;
-    }
-    small {
-      margin-top: 20px;
-      opacity: 0.8;
-      font-size: 0.9rem;
-    }
-    footer {
-      position: absolute;
-      bottom: 15px;
-      font-size: 0.8rem;
-      opacity: 0.5;
-    }
+    .panel p { margin: 10px 0 0 0; }
+    footer { font-size: 0.8rem; opacity: 0.5; margin-top: auto; }
   </style>
 </head>
 <body>
@@ -61,6 +54,22 @@
   <div id="price">Загрузка...</div>
   <div id="change">---</div>
   <small>Данные обновляются каждые 30 секунд</small>
+
+  <!-- Аккордеоны -->
+  <div class="accordion">
+    <h2>Что такое биткоин (BTC)?</h2>
+    <div class="panel">
+      <p>Биткоин — это цифровая децентрализованная валюта, которая работает без участия банков и государственных органов. Каждая транзакция записывается в публичную цепочку блоков — блокчейн.</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <h2>Как работает блокчейн?</h2>
+    <div class="panel">
+      <p>Блокчейн — это цепочка блоков с информацией о всех транзакциях. Каждая запись защищена криптографией, что делает систему безопасной и прозрачной. Благодаря этому никто не может подделать историю транзакций.</p>
+    </div>
+  </div>
+
   <footer>Источник: CoinGecko API</footer>
 
   <script>
@@ -92,7 +101,16 @@
     }
 
     fetchData();
-    setInterval(fetchData, 30000); // каждые 30 секунд
+    setInterval(fetchData, 30000);
+
+    // Аккордеоны
+    const accordions = document.querySelectorAll(".accordion");
+    accordions.forEach(acc => {
+      acc.addEventListener("click", () => {
+        const panel = acc.querySelector(".panel");
+        panel.style.maxHeight = panel.style.maxHeight ? null : panel.scrollHeight + "px";
+      });
+    });
   </script>
 </body>
 </html>
